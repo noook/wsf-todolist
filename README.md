@@ -2,7 +2,7 @@
 
 1. **Cloner le dépôt**
     ```bash
-    git clone git@github.com:noook/wsf-todolist.git
+    git clone https://github.com/noook/wsf-todolist.git
     ```
 
 2. **Naviguer dans le répertoire du projet**
