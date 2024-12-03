@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#TODO [name=mark-todo] {
+    display: none;
+}
+
+#DOING [name=mark-doing] {
+    display: none;
+}
+
+#DONE [name=mark-done] {
+    display: none;
+}
