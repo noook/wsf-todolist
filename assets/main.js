@@ -1,18 +1,21 @@
 const TASK_STATUS = {
   TODO: 'todo',
-  DOING: 'doing',
+  DOING: 'pending',
   DONE: 'done'
 }
 
-const task = {
-  title: 'titles',
-  description: 'Task description',
-  createdAt: '2021-01-01',
-  completedAt: '2021-01-02',
-  assignee: 'John Doe',
-  tags: ['Tag 3', 'Tag 4'],
-  status: TASK_STATUS.TODO,
-  id: "",
+const todoList = document.querySelector('#TODO')
+const doingList = document.querySelector('#DOING')
+const doneList = document.querySelector('#DONE')
+const form = document.querySelector('#new-task')
+
+const tasks = localStorage.getItem('tasks') !== null
+  ? JSON.parse(localStorage.getItem('tasks'))
+  : []
+
+for (const task of tasks) {
+  const taskElement = createTaskElement(task)
+  insertTask(taskElement)
 }
 
 const tag = {
@@ -21,10 +24,7 @@ const tag = {
   color: '#ff0000'
 }
 
-const TODOlist = document.querySelector('#TODO')
-
-function createTask(task) {
-  task.id = self.crypto.randomUUID()
+function createTaskElement(task) {
   const template = document.querySelector('[name=task-template]').cloneNode(true)
   
   template.classList.remove('hidden')
@@ -33,20 +33,33 @@ function createTask(task) {
   template.querySelector('[name=created-at]').textContent = task.createdAt
   template.querySelector('[name=completed-at]').textContent = task.completedAt
   template.setAttribute('task-id', task.id)
-  template.querySelector('[name=delete-task]').addEventListener('click', ()=>{
-    template.remove()
+  template.querySelector('[name=delete-task]').addEventListener('click', () => {
+    const index = tasks.findIndex(t => t.id === task.id)
+    if (index > -1) {
+      template.remove()
+      tasks.splice(index, 1)
+      saveTasks()
+    }
   })
-  template.querySelector('[name=mark-todo]').addEventListener('click', ()=>{
+  template.querySelector('[name=mark-todo]').addEventListener('click', () => {
     updateStatus(task, TASK_STATUS.TODO, template)
   })
-  template.querySelector('[name=mark-doing]').addEventListener('click', ()=>{
+  template.querySelector('[name=mark-doing]').addEventListener('click', () => {
     updateStatus(task, TASK_STATUS.DOING, template)
   })
-  template.querySelector('[name=mark-done]').addEventListener('click', ()=>{
+  template.querySelector('[name=mark-done]').addEventListener('click', () => {
     updateStatus(task, TASK_STATUS.DONE, template)
   })
-  TODOlist.appendChild(template)
-  console.log(template)
+
+  return template
+}
+
+function insertTask(taskElement) {
+  todoList.appendChild(taskElement)
+}
+
+function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
 function updateStatus(task, status, element) {
@@ -61,7 +74,27 @@ function updateStatus(task, status, element) {
   }
 }
 
-createTask(task)
-createTask(task)
-createTask(task)
-createTask(task)
+form.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const task = {
+    title: event.target.elements['title'].value,
+    description: event.target.elements['description'].value,
+    createdAt: event.target.elements['create'].value,
+    completedAt: "2021-01-02",
+    assignee: "John Doe",
+    tags: [
+      "Tag 3",
+      "Tag 4"
+    ],
+    status: "todo",
+    id: self.crypto.randomUUID()
+  }
+  
+  const taskelement = createTaskElement(task)
+  insertTask(taskelement)
+  tasks.push(task)
+  saveTasks()
+  form.reset()
+})
+
+console.log(tasks[0])

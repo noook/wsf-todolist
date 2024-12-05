@@ -12,9 +12,13 @@
 <body>
   <main class="p-8 space-y-6">
     <section class="max-w-5xl mx-auto space-y-4">
-      <div class="flex justify-end">
-        <button class="px-3 py-2 flex items-center hover:bg-gray-200 transition-colors duration-75 ring-1 ring-gray-500 rounded" id="add-task">+ Ajouter une tâche</button>
-      </div>
+      <form id="new-task">
+        <input class="border" type="text" name="title">
+        <textarea class="border" name="description"></textarea>
+        <input class="border" type="date" name="create">
+        <select name="tags"></select>
+        <button type="submit">Créer la tâche</button>
+      </form>
       <div class="grid grid-cols-3 gap-4 h-[600px]">
         <div class="bg-blue-200 rounded py-2 px-3 flex flex-col h-full overflow-hidden">
           <h2 class="font-semibold mb-3">TODO</h2>
