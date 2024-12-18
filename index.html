@@ -12,17 +12,31 @@
 <body>
   <main class="p-8 space-y-6">
     <section class="max-w-5xl mx-auto space-y-4">
-      <form id="new-task">
-        <input class="border" type="text" name="title">
-        <textarea class="border" name="description"></textarea>
-        <input class="border" type="date" name="create">
-        <select name="tags"></select>
-        <button type="submit">Créer la tâche</button>
+      <form id="new-task" class="flex flex-col gap-y-2 w-[400px]">
+        <label class="inline-flex flex-col gap-y-1">
+          <span>Titre</span>
+          <input class="border" type="text" name="title">
+        </label>
+        <label class="inline-flex flex-col gap-y-1">
+          <span>Description</span>
+          <textarea class="border" name="description"></textarea>
+        </label>
+        <label class="inline-flex flex-col gap-y-1">
+          <span>Créé le</span>
+          <input class="border" type="date" name="create">
+        </label>
+        <label class="inline-flex flex-col gap-y-1">
+          <span>Tags</span>
+          <select name="tags">
+            <option value="plop">Plop</option>
+          </select>
+        </label>
+        <button class="bg-blue-300" type="submit">Créer la tâche</button>
       </form>
       <div class="grid grid-cols-3 gap-4 h-[600px]">
         <div class="bg-blue-200 rounded py-2 px-3 flex flex-col h-full overflow-hidden">
           <h2 class="font-semibold mb-3">TODO</h2>
-          <ul class="flex-1 min-h-0 overflow-auto space-y-2" id="TODO">
+          <ul class="flex-1 min-h-0 overflow-auto space-y-2" name="drop-container" id="TODO">
             <!-- task begin -->
             <li class="bg-gray-50 rounded p-2 space-y-2 hidden" name="task-template">
               <div class="flex justify-between items-center gap-x-3 text-lg">
@@ -32,11 +46,13 @@
               <ul class="flex flex-wrap gap-2">
                 <li class="relative rounded bg-green-500 text-white font-medium px-2 py-1 text-xs group">
                   <span>Tag 3</span>
-                  <button class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
+                  <button
+                    class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
                 </li>
                 <li class="relative rounded bg-purple-500 text-white font-medium px-2 py-1 text-xs group">
                   <span>Tag 4</span>
-                  <button class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
+                  <button
+                    class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
                 </li>
               </ul>
               <p class="text-sm" name="task-description">Task description</p>
@@ -59,40 +75,36 @@
         </div>
         <div class="bg-yellow-200 rounded py-2 px-3 flex flex-col h-full overflow-hidden">
           <h2 class="font-semibold mb-3">DOING</h2>
-          <ul class="flex-1 min-h-0 overflow-auto space-y-2" id="DOING">
+          <ul class="flex-1 min-h-0 overflow-auto space-y-2" name="drop-container" id="DOING">
         </div>
         <div class="bg-green-200 rounded py-2 px-3 flex flex-col h-full overflow-hidden">
           <h2 class="font-semibold mb-3">DONE</h2>
-          <ul class="flex-1 min-h-0 overflow-auto space-y-2" id="DONE">
+          <ul class="flex-1 min-h-0 overflow-auto space-y-2" name="drop-container" id="DONE">
         </div>
       </div>
     </section>
     <section class="max-w-5xl mx-auto space-y-4">
-      <div class="flex items-center gap-x-2">
+      <div class="flex flex-col items-start">
         <h2 class="text-xl font-semibold">Tags</h2>
-        <button class="px-2 py-1 rounded bg-indigo-500 text-white font-medium text-sm">+ Ajouter un tag</button>
+        <form id="create-tag" class="flex flex-col">
+          <label>
+            <span>Nom du tag</span>
+            <input class="border" type="text" name="tag-name">
+          </label>
+          <button type="submit" class="px-2 py-1 rounded bg-indigo-500 text-white font-medium text-sm">+ Ajouter un tag</button>
+        </form>
       </div>
-      <ul class="flex flex-wrap gap-2">
-        <li class="relative rounded bg-green-500 text-white font-medium px-2 py-1 text-xs group">
-          <span>Tag 1</span>
-          <button class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
-        </li>
-        <li class="relative rounded bg-red-500 text-white font-medium px-2 py-1 text-xs group">
-          <span>Tag 2</span>
-          <button class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
-        </li>
-        <li class="relative rounded bg-pink-500 text-white font-medium px-2 py-1 text-xs group">
-          <span>Tag 3</span>
-          <button class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
-        </li>
-        <li class="relative rounded bg-purple-500 text-white font-medium px-2 py-1 text-xs group">
-          <span>Tag 4</span>
-          <button class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
+      <ul class="flex flex-wrap gap-2" id="tag-list">
+        <li name="tag-template" class="hidden relative rounded text-white font-medium px-2 py-1 text-xs group">
+          <span name="tag-name">Tag name</span>
+          <button
+            name="delete-tag"
+            class="absolute -top-2 -right-2 size-4 rounded-full bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity text-gray-500">&times;</button>
         </li>
       </ul>
     </section>
   </main>
-  
+
   <script src="/assets/main.js" type="module"></script>
 </body>
 
